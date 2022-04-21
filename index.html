@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="./assets/materialize/css/materialize.min.css"
+        media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="./assets/lodash.js"></script>
+    <script src="./presets.js"></script>
+
+    <script type="text/javascript" src="./assets/materialize/js/materialize.min.js"></script>
+
+    <title>Responsys to DataStudio Format</title>
+</head>
+
+<body class="grey darken-3">
+    <nav class="grey darken-4" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo left"><i
+                    style="font-style:normal; color:#f7ab13; font-size: unset; height: unset; margin: 0; font-weight: unset;">D</i>ataStudio
+                Format</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="https://github.com/AndersonVes/datastudio-format-converter" target="_blank">Projeto</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="section no-pad-bot grey darken-3" id="index-banner">
+        <div class="container">
+            <div class="row center">
+                <form id="myForm">
+                    <h5 class="header col s12 light white-text">Após acessar o Responsys e baixar o arquivo <strong
+                            class="green-text">CSV</strong>, faça o
+                        upload no botão abaixo:</h5>
+                    <p class="white-text"><i>(Interactive Dashboards)</i></p>
+                    <button type="button" onclick="openInfo()"
+                        class="btn-floating btn waves-effect waves-light green"><i
+                            class="material-icons">info_outline</i></button>
+                    <div class="spacer" style="height: 60px;"></div>
+                    <div class="file-field input-field">
+                        <div class="btn grey darken-4">
+                            <span style="color: #333" class="amber-text">upload</span>
+                            <input type="file" id="csvFile" accept=".csv" required />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate white-text"
+                                onchange='document.getElementById("submit_id").style.display = "inline-block";'
+                                type="text">
+                        </div>
+                    </div>
+                    <div id="submit_id" style="display: none;" class="container">
+                        <div class="row">
+                            <button class="btn-large waves-effect waves-light amber accent-4" type="submit"
+                                name="action">Converter
+                                <i class="material-icons right">import_export</i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <span class="grey darken-2 white-text" style="padding: 5px; border-radius: 2px;">Verifique o
+                                arquivo após o download!!</span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="spacer" style="height: 220px;"></div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal2" class="modal grey darken-3 white-text">
+        <div class="modal-content">
+            <div class="container ">
+                <div class="row">
+                    <div class="col s12 white-text center">
+                        <h5 style="font-weight: 300;">Para o funcionamento correto da ferramenta, exporte o arquivo em <strong style="font-weight: 400;">CSV:</strong></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center">
+                        <img src="src/images/csv_format.png" alt="CSV">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer grey darken-4 white-text" style="">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">OK</a>
+        </div>
+    </div>
+
+    <div id="modal1" class="modal modal-fixed-footer bottom-sheet grey darken-3 white-text" style="overflow-y: hidden;">
+        <div class="modal-content grey darken-3">
+            <div class="row">
+                <div class="col s6">
+                    <h4>Selecione os campos desejados:</h4>
+                </div>
+                <div class="col s6">
+                    <div class="preset input-field">
+
+                        <select class="browser-default" id="presetsId" onchange="onSelectChange()">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modalList"></div>
+        </div>
+        <div class="modal-footer grey darken-3">
+            <div class="row">
+                <div class="col s10" style="display: flex; margin-top: 6px; overflow-x: auto; height: 50px;"
+                    id="tableOrder">
+
+                </div>
+                <div class="col s2">
+                    <button onclick="download()" href="#!"
+                        class="modal-close waves-effect waves-green btn amber black-text">BAIXAR
+                        ARQUIVO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-action-btn">
+        <a class="btn grey darken-1 tooltipped" data-position="left" data-tooltip="anderson.miranda@adin.com.br"
+            style="border-radius: 50px; cursor: default;">
+            Envie seu feedback
+        </a>
+    </div>
+    <script src="src/js/main.js"></script>
+    <style>
+        .select {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            width: 250px;
+            height: 40px;
+        }
+
+        option {
+            padding: 0 30px 0 10px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            background: #333;
+            border-top: #222 solid 1px;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            pointer-events: none;
+            order: 2;
+            z-index: 1;
+            transition: background .4s ease-in-out;
+            box-sizing: border-box;
+            overflow: hidden;
+            white-space: nowrap;
+            color: white;
+
+        }
+
+        option:hover {
+            background: #666;
+        }
+
+        select:focus .option {
+            position: relative;
+            pointer-events: all;
+        }
+    </style>
+</body>
+
+</html>

@@ -31,7 +31,11 @@
                     style="font-style:normal; color:#f7ab13; font-size: unset; height: unset; margin: 0; font-weight: unset;">D</i>ataStudio
                 Format</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="https://github.com/AndersonVes/datastudio-format-converter" target="_blank">Projeto</a>
+                <li>
+                    <a href="https://github.com/AndersonVes/datastudio-format-converter" target="_blank">Projeto</a>
+                </li>
+                <li >
+                    <a class="yellow-text" href="https://www.adin.com.br/projetos">Mais ferramentas</a>
                 </li>
             </ul>
         </div>
@@ -41,13 +45,10 @@
         <div class="container">
             <div class="row center">
                 <form id="myForm">
-                    <h5 class="header col s12 light white-text">Após acessar o Responsys e baixar o arquivo <strong
-                            class="green-text">CSV</strong>, faça o
+                    <h5 class="header col s12 light white-text">Após acessar o Responsys e baixar o arquivo <strong class="green-text">CSV</strong>, faça o
                         upload no botão abaixo:</h5>
-                    <p class="white-text"><i>(Interactive Dashboards)</i></p>
-                    <button type="button" onclick="openInfo()"
-                        class="btn-floating btn waves-effect waves-light green"><i
-                            class="material-icons">info_outline</i></button>
+                        <p class="white-text"><i>(Interactive Dashboards)</i></p>
+                        <button type="button" onclick="openInfo()" class="btn-floating btn waves-effect waves-light green"><i class="material-icons">info_outline</i></button>
                     <div class="spacer" style="height: 60px;"></div>
                     <div class="file-field input-field">
                         <div class="btn grey darken-4">
@@ -60,16 +61,15 @@
                                 type="text">
                         </div>
                     </div>
-                    <div id="submit_id" style="display: none;" class="container">
+                    <div id="submit_id"  style="display: none;" class="container">
                         <div class="row">
-                            <button class="btn-large waves-effect waves-light amber accent-4" type="submit"
-                                name="action">Converter
-                                <i class="material-icons right">import_export</i>
-                            </button>
+                            <button
+                            class="btn-large waves-effect waves-light amber accent-4" type="submit" name="action">Converter
+                            <i class="material-icons right">import_export</i>
+                        </button>
                         </div>
                         <div class="row">
-                            <span class="grey darken-2 white-text" style="padding: 5px; border-radius: 2px;">Verifique o
-                                arquivo após o download!!</span>
+                            <span class="grey darken-2 white-text" style="padding: 5px; border-radius: 2px;">Verifique o arquivo após o download!!</span>
                         </div>
                     </div>
                     <br>
@@ -83,34 +83,34 @@
 
     <div id="modal2" class="modal grey darken-3 white-text">
         <div class="modal-content">
-            <div class="container ">
-                <div class="row">
-                    <div class="col s12 white-text center">
-                        <h5 style="font-weight: 300;">Para o funcionamento correto da ferramenta, exporte o arquivo em <strong style="font-weight: 400;">CSV:</strong></h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 center">
-                        <img src="src/images/csv_format.png" alt="CSV">
-                    </div>
-                </div>
-            </div>
+          <div class="container">
+              <div class="row">
+                  <div class="col s12 green-text">
+                      Para o funcionamento correto da ferramenta, exporte o arquivo em <strong>CSV:</strong>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col s12 center">
+                      <img  src="src/images/csv_format.png" alt="CSV">
+                  </div>
+              </div>
+          </div>
         </div>
-        <div class="modal-footer grey darken-4 white-text" style="">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">OK</a>
+        <div class="modal-footer grey darken-3 white-text">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">OK</a>
         </div>
-    </div>
-
-    <div id="modal1" class="modal modal-fixed-footer bottom-sheet grey darken-3 white-text" style="overflow-y: hidden;">
+      </div>
+    
+    <div id="modal1" class="modal modal-fixed-footer bottom-sheet grey darken-3 white-text">
         <div class="modal-content grey darken-3">
             <div class="row">
                 <div class="col s6">
                     <h4>Selecione os campos desejados:</h4>
                 </div>
                 <div class="col s6">
-                    <div class="preset input-field">
+                    <div  class="preset input-field">
 
-                        <select class="browser-default" id="presetsId" onchange="onSelectChange()">
+                        <select class="browser-default"  id="presetsId" onchange="onSelectChange()">
                         </select>
                     </div>
                 </div>
@@ -139,45 +139,257 @@
             Envie seu feedback
         </a>
     </div>
-    <script src="src/js/main.js"></script>
+    <script>
+        let modalInstance;
+
+        //PRESETS
+        function onSelectChange() {
+            tableKeys = presets[document.getElementById('presetsId').value].fields
+            download();
+            modalInstance.close()
+        }
+
+        function printPresets(allKeys) {
+            let containsAll;
+            str = '<option disabled selected>Ou selecione um preset</option>';
+            for (var key in presets) {
+                if (!presets.hasOwnProperty(key)) continue;
+
+                var obj = presets[key];
+
+                containsAll = obj.fields.every(element => {
+                    return allKeys.includes(element);
+                });
+
+                if (containsAll)
+                    str += '<option value="' + key + '">' + key + '</option>';
+
+            }
+            document.getElementById("presetsId").innerHTML = str;
+
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems, [{belowOrigin: true, coverTrigger: false}]);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            //MODAL
+            var modal1 = document.querySelector('#modal1');
+            modalInstance = M.Modal.init(modal1, []);
+
+            var modal2 = document.querySelector('#modal2');
+            modalInstance2 = M.Modal.init(modal2, []);
+
+            //TOOLTIP
+            var tElems = document.querySelectorAll('.tooltipped');
+            var tooltipInstances = M.Tooltip.init(tElems, []);
+        });
+
+        //CONVERSOR
+        let finalFile;
+        let tableKeys;
+        let text;
+
+        const myForm = document.getElementById("myForm");
+        const csvFile = document.getElementById("csvFile");
+
+        function csvToArray(str, delimiter = ",") {
+
+            const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
+
+            const rows = str.slice(str.indexOf("\n") + 1).split("\n");
+
+            const arr = rows.map(function (row) {
+                const values = row.split(delimiter);
+                const el = headers.reduce(function (object, header, index) {
+                    object[header] = values[index];
+                    return object;
+                }, {});
+                return el;
+            });
+
+            return arr;
+        }
+
+        function triggerList(key) {
+            let haveKey = false;
+
+            for (var i = 0; i < tableKeys.length; i++) {
+                if (!document.getElementById(key).checked && tableKeys[i] === key) {
+                    tableKeys.splice(i, 1);
+                    haveKey = true;
+                }
+            }
+
+            if (!haveKey) {
+                tableKeys.push(key);
+            }
+
+            printOrder();
+        }
+
+        function printOrder() {
+            let str = '';
+            tableKeys.forEach(e => {
+                str += '<span style="margin-left: 0; margin-right: 6px; min-width:max-content" class="badge amber lighten-2 black-text">' + e + '</span>';
+            });
+
+            document.getElementById("tableOrder").innerHTML = str;
+        }
+
+        function arrayToCsv(array) {
+            var fields = Object.keys(array[0])
+            var replacer = function (key, value) { return value === null || value === '' ? '0' : (!isNaN(Math.round(value)) ? Math.round(value) : value) }
+            var rounder = function (key, value) { return Math.round(value) !== false ? Math.round(value) : value }
+            var csv = array.map(function (row) {
+                return fields.map(function (fieldName) {
+                    return JSON.stringify(row[fieldName], replacer)
+                }).join(',')
+            })
+            csv.unshift(fields.join(',')) // add header column
+            csv = csv.join('\r\n');
+
+            return csv
+        }
+
+        function printModalItens(keys) {
+            let htmlList = '<ul style="border: none" class="collection grey darken-1" >';
+            keys.forEach(key => {
+                htmlList += '<li class="grey darken-4 white-text collection-item" style="padding: 0; display: flex;"><label class="white-text" style="cursor: pointer; width: 100%;padding: 10px 20px;"><input onclick="triggerList(\'' + key + '\')" type="checkbox" id="' + key + '"/><span>' + key + '</span></label></li>';
+            });
+
+            htmlList += '</ul>';
+
+            document.getElementById('modalList').innerHTML = htmlList;
+        }
+
+
+        function formatCsv(object) {
+            let new_list = object.map(function (obj) { return _.pick(obj, tableKeys) });
+            var ret = arrayToCsv(new_list);
+            return ret.replaceAll('"', '');
+        }
+
+        function openInfo() {
+            modalInstance2.open();
+        }
+
+        myForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var instance = M.Modal.getInstance(document.querySelector('#modal1'));
+            instance.open();
+
+            const input = csvFile.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                text = e.target.result.replaceAll(['\r'], '');
+                //save('datastudio', formatCsv(data));
+                const data = csvToArray(text);
+                let keys = Object.keys(data[0]);
+                tableKeys = [];
+                printModalItens(keys);
+                printPresets(keys);
+            };
+
+            reader.readAsText(input);
+
+            tableKeys = [];
+            printOrder();
+        });
+
+        String.prototype.replaceAt = function (index, replacement) {
+            if (index >= this.length) {
+                return this.valueOf();
+            }
+
+            return this.substring(0, index) + replacement + this.substring(index + 1);
+        }
+
+        function removeComma(text) {
+            let ret;
+            ret = text;
+
+            let switch_ = 0;
+            let commas = [];
+            for (let i = 0; i <= text.length - 1; i++) {
+                if (text.charAt(i) == '"')
+                    switch_++;
+
+                if (switch_ % 2 != 0 && text.charAt(i) == ',')
+                    commas.push(i);
+            }
+
+            commas.forEach(function (e, index) {
+                ret = ret.replaceAt(e, ' ');
+            });
+
+            return ret;
+        }
+
+        function download() {
+            let text2 = removeComma(text)
+            const data = csvToArray(text2);
+            finalFile = formatCsv(data);
+
+            save('datastudio_format', finalFile);
+        }
+
+        function save(filename, data) {
+            const blob = new Blob(["\ufeff", data], { type: 'text/csv;charset=UTF-8' });
+            if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(blob, filename);
+            }
+            else {
+                const elem = window.document.createElement('a');
+                elem.href = window.URL.createObjectURL(blob);
+                elem.download = filename;
+                document.body.appendChild(elem);
+                elem.click();
+                document.body.removeChild(elem);
+            }
+        }
+    </script>
     <style>
         .select {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            width: 250px;
-            height: 40px;
-        }
+  display:flex;
+  flex-direction: column;
+  position:relative;
+  width:250px;
+  height:40px;
+}
 
-        option {
-            padding: 0 30px 0 10px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            background: #333;
-            border-top: #222 solid 1px;
-            position: absolute;
-            top: 0;
-            width: 100%;
-            pointer-events: none;
-            order: 2;
-            z-index: 1;
-            transition: background .4s ease-in-out;
-            box-sizing: border-box;
-            overflow: hidden;
-            white-space: nowrap;
-            color: white;
+option {
+  padding:0 30px 0 10px;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  background:#333;
+  border-top:#222 solid 1px;
+  position:absolute;
+  top:0;
+  width: 100%;
+  pointer-events:none;
+  order:2;
+  z-index:1;
+  transition:background .4s ease-in-out;
+  box-sizing:border-box;
+  overflow:hidden;
+  white-space:nowrap;
+  color: white;
+  
+}
 
-        }
+option:hover {
+  background:#666;
+}
 
-        option:hover {
-            background: #666;
-        }
+select:focus .option {
+  position:relative;
+  pointer-events:all;
+}
 
-        select:focus .option {
-            position: relative;
-            pointer-events: all;
-        }
+
     </style>
 </body>
 

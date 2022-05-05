@@ -141,10 +141,16 @@
     </div>
     <script>
         let modalInstance;
+        let presetFilename = null;
 
         //PRESETS
         function onSelectChange() {
             tableKeys = presets[document.getElementById('presetsId').value].fields
+
+            presetFilename = null;
+            if(presets[document.getElementById('presetsId').value].file_name)
+                presetFilename = presets[document.getElementById('presetsId').value].file_name;
+
             download();
             modalInstance.close()
         }
@@ -337,6 +343,10 @@
 
         function save(filename, data) {
             const blob = new Blob(["\ufeff", data], { type: 'text/csv;charset=UTF-8' });
+
+            if(presetFilename)
+                filename = presetFilename;
+
             if (window.navigator.msSaveOrOpenBlob) {
                 window.navigator.msSaveBlob(blob, filename);
             }

@@ -32,10 +32,7 @@
                 Format</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li>
-                    <a href="https://github.com/AndersonVes/datastudio-format-converter" target="_blank">Projeto</a>
-                </li>
-                <li >
-                    <a class="yellow-text" href="https://www.adin.com.br/projetos">Mais ferramentas</a>
+                    <a href="https://github.com/AndersonVes/datastudio-format-converter" target="_blank">Poject</a>
                 </li>
             </ul>
         </div>
@@ -45,11 +42,7 @@
         <div class="container">
             <div class="row center">
                 <form id="myForm">
-                    <h5 class="header col s12 light white-text">Após acessar o Responsys e baixar o arquivo <strong class="green-text">CSV</strong>, faça o
-                        upload no botão abaixo:</h5>
-                        <p class="white-text"><i>(Interactive Dashboards)</i></p>
-                        <button type="button" onclick="openInfo()" class="btn-floating btn waves-effect waves-light green"><i class="material-icons">info_outline</i></button>
-                    <div class="spacer" style="height: 60px;"></div>
+                    
                     <div class="file-field input-field">
                         <div class="btn grey darken-4">
                             <span style="color: #333" class="amber-text">upload</span>
@@ -81,25 +74,7 @@
         </div>
     </div>
 
-    <div id="modal2" class="modal grey darken-3 white-text">
-        <div class="modal-content">
-          <div class="container">
-              <div class="row">
-                  <div class="col s12 green-text">
-                      Para o funcionamento correto da ferramenta, exporte o arquivo em <strong>CSV:</strong>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col s12 center">
-                      <img  src="src/images/csv_format.png" alt="CSV">
-                  </div>
-              </div>
-          </div>
-        </div>
-        <div class="modal-footer grey darken-3 white-text">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">OK</a>
-        </div>
-      </div>
+    
     
     <div id="modal1" class="modal modal-fixed-footer bottom-sheet grey darken-3 white-text">
         <div class="modal-content grey darken-3">
@@ -182,9 +157,6 @@
             //MODAL
             var modal1 = document.querySelector('#modal1');
             modalInstance = M.Modal.init(modal1, []);
-
-            var modal2 = document.querySelector('#modal2');
-            modalInstance2 = M.Modal.init(modal2, []);
 
             //TOOLTIP
             var tElems = document.querySelectorAll('.tooltipped');
@@ -274,10 +246,6 @@
             let new_list = object.map(function (obj) { return _.pick(obj, tableKeys) });
             var ret = arrayToCsv(new_list);
             return ret.replaceAll('"', '');
-        }
-
-        function openInfo() {
-            modalInstance2.open();
         }
 
         myForm.addEventListener("submit", function (e) {
